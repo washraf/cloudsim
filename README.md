@@ -1,3 +1,12 @@
+# Updated Container Cloud Sim
+This fork contains the updated code and algorithms for the research paper.
+
+> W. A. Hanafy, A. E. Mohamed and S. A. Salem, "Novel selection policies for container-based cloud deployment models," 2017 13th International Computer Engineering Conference (ICENCO), Cairo, 2017, pp. 237-242, doi: 10.1109/ICENCO.2017.8289794.
+
+To cite the provided implementations make sure to cite the paper.
+
+---
+
 # CloudSim: A Framework For Modeling And Simulation Of Cloud Computing Infrastructures And Services #
 
 Cloud computing is the leading approach for delivering reliable, secure, fault-tolerant, sustainable, and scalable computational services. Hence timely, repeatable, and controllable methodologies for performance evaluation of new cloud applications and policies before their actual development are reqruied. Because utilization of real testbeds limits the experiments to the scale of the testbed and makes the reproduction of results an extremely difficult undertaking, simulation may be used.
