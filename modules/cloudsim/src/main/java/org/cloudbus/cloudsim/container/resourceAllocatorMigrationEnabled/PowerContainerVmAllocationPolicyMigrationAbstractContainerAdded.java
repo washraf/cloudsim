@@ -22,6 +22,7 @@ import java.util.*;
 
 /**
  * Created by sareh on 30/07/15.
+ * Updated by Walid on 1/10/17.
  */
 
 public abstract class PowerContainerVmAllocationPolicyMigrationAbstractContainerAdded extends PowerContainerVmAllocationPolicyMigrationAbstract {
@@ -91,72 +92,73 @@ public abstract class PowerContainerVmAllocationPolicyMigrationAbstractContainer
 
     }
 
-    protected Collection<? extends Map<String, Object>> getContainerMigrationMapFromUnderUtilizedHosts(List<PowerContainerHostUtilizationHistory> overUtilizedHosts, List<Map<String, Object>> previouseMap) {
-
-        List<Map<String, Object>> migrationMap = new LinkedList<Map<String, Object>>();
-        List<PowerContainerHost> switchedOffHosts = getSwitchedOffHosts();
-
-        // over-utilized hosts + hosts that are selected to migrate VMs to from over-utilized hosts
-        Set<PowerContainerHost> excludedHostsForFindingUnderUtilizedHost = new HashSet<>();
-        excludedHostsForFindingUnderUtilizedHost.addAll(overUtilizedHosts);
-        excludedHostsForFindingUnderUtilizedHost.addAll(switchedOffHosts);
-        excludedHostsForFindingUnderUtilizedHost.addAll(extractHostListFromMigrationMap(previouseMap));
-
-        // over-utilized + under-utilized hosts
-        Set<PowerContainerHost> excludedHostsForFindingNewContainerPlacement = new HashSet<PowerContainerHost>();
-        excludedHostsForFindingNewContainerPlacement.addAll(overUtilizedHosts);
-        excludedHostsForFindingNewContainerPlacement.addAll(switchedOffHosts);
-
-        int numberOfHosts = getContainerHostList().size();
-
-        while (true) {
-            if (numberOfHosts == excludedHostsForFindingUnderUtilizedHost.size()) {
-                break;
-            }
-
-            PowerContainerHost underUtilizedHost = getUnderUtilizedHost(excludedHostsForFindingUnderUtilizedHost);
-            if (underUtilizedHost == null) {
-                break;
-            }
-
-            Log.printConcatLine("Under-utilized host: host #", underUtilizedHost.getId(), "\n");
-
-            excludedHostsForFindingUnderUtilizedHost.add(underUtilizedHost);
-            excludedHostsForFindingNewContainerPlacement.add(underUtilizedHost);
-
-            List<? extends ContainerVm> vmsToMigrateFromUnderUtilizedHost = getVmsToMigrateFromUnderUtilizedHost(underUtilizedHost);
-            if (vmsToMigrateFromUnderUtilizedHost.isEmpty()) {
-                continue;
-            }
-
-            Log.print("Reallocation of Containers from the under-utilized host: ");
-            if (!Log.isDisabled()) {
-                for (ContainerVm vm : vmsToMigrateFromUnderUtilizedHost) {
-                    Log.print(vm.getId() + " ");
-                }
-            }
-            Log.printLine();
-
-            List<Map<String, Object>> newVmPlacement = getNewVmPlacementFromUnderUtilizedHost(
-                    vmsToMigrateFromUnderUtilizedHost,
-                    excludedHostsForFindingNewContainerPlacement);
-            //Sareh
-            if (newVmPlacement == null) {
-//                Add the host to the placement founder option
-                excludedHostsForFindingNewContainerPlacement.remove(underUtilizedHost);
-
-            }
-
-            excludedHostsForFindingUnderUtilizedHost.addAll(extractHostListFromMigrationMap(newVmPlacement));
-            //The migration mapp does not have a value for container since the whole vm would be migrated.
-            migrationMap.addAll(newVmPlacement);
-            Log.printLine();
-        }
-
-        excludedHostsForFindingUnderUtilizedHost.clear();
-        excludedHostsForFindingNewContainerPlacement.clear();
-        return migrationMap;
-    }
+    protected abstract Collection<? extends Map<String, Object>> getContainerMigrationMapFromUnderUtilizedHosts(List<PowerContainerHostUtilizationHistory> overUtilizedHosts, List<Map<String, Object>> previouseMap);
+//    {
+//
+//        List<Map<String, Object>> migrationMap = new LinkedList<Map<String, Object>>();
+//        List<PowerContainerHost> switchedOffHosts = getSwitchedOffHosts();
+//
+//        // over-utilized hosts + hosts that are selected to migrate VMs to from over-utilized hosts
+//        Set<PowerContainerHost> excludedHostsForFindingUnderUtilizedHost = new HashSet<>();
+//        excludedHostsForFindingUnderUtilizedHost.addAll(overUtilizedHosts);
+//        excludedHostsForFindingUnderUtilizedHost.addAll(switchedOffHosts);
+//        excludedHostsForFindingUnderUtilizedHost.addAll(extractHostListFromMigrationMap(previouseMap));
+//
+//        // over-utilized + under-utilized hosts
+//        Set<PowerContainerHost> excludedHostsForFindingNewContainerPlacement = new HashSet<PowerContainerHost>();
+//        excludedHostsForFindingNewContainerPlacement.addAll(overUtilizedHosts);
+//        excludedHostsForFindingNewContainerPlacement.addAll(switchedOffHosts);
+//
+//        int numberOfHosts = getContainerHostList().size();
+//
+//        while (true) {
+//            if (numberOfHosts == excludedHostsForFindingUnderUtilizedHost.size()) {
+//                break;
+//            }
+//
+//            PowerContainerHost underUtilizedHost = getUnderUtilizedHost(excludedHostsForFindingUnderUtilizedHost);
+//            if (underUtilizedHost == null) {
+//                break;
+//            }
+//
+//            Log.printConcatLine("Under-utilized host: host #", underUtilizedHost.getId(), "\n");
+//
+//            excludedHostsForFindingUnderUtilizedHost.add(underUtilizedHost);
+//            excludedHostsForFindingNewContainerPlacement.add(underUtilizedHost);
+//
+//            List<? extends ContainerVm> vmsToMigrateFromUnderUtilizedHost = getVmsToMigrateFromUnderUtilizedHost(underUtilizedHost);
+//            if (vmsToMigrateFromUnderUtilizedHost.isEmpty()) {
+//                continue;
+//            }
+//
+//            Log.print("Reallocation of Containers from the under-utilized host: ");
+//            if (!Log.isDisabled()) {
+//                for (ContainerVm vm : vmsToMigrateFromUnderUtilizedHost) {
+//                    Log.print(vm.getId() + " ");
+//                }
+//            }
+//            Log.printLine();
+//
+//            List<Map<String, Object>> newVmPlacement = getNewVmPlacementFromUnderUtilizedHost(
+//                    vmsToMigrateFromUnderUtilizedHost,
+//                    excludedHostsForFindingNewContainerPlacement);
+//            //Sareh
+//            if (newVmPlacement == null) {
+////                Add the host to the placement founder option
+//                excludedHostsForFindingNewContainerPlacement.remove(underUtilizedHost);
+//
+//            }
+//
+//            excludedHostsForFindingUnderUtilizedHost.addAll(extractHostListFromMigrationMap(newVmPlacement));
+//            //The migration mapp does not have a value for container since the whole vm would be migrated.
+//            migrationMap.addAll(newVmPlacement);
+//            Log.printLine();
+//        }
+//
+//        excludedHostsForFindingUnderUtilizedHost.clear();
+//        excludedHostsForFindingNewContainerPlacement.clear();
+//        return migrationMap;
+//    }
 
     private List<? extends Container> getContainersToMigrateFromHosts(List<PowerContainerHostUtilizationHistory> overUtilizedHosts) {
         List<Container> containersToMigrate = new LinkedList<>();
@@ -177,7 +179,7 @@ public abstract class PowerContainerVmAllocationPolicyMigrationAbstractContainer
     }
 
 
-    private List<Map<String, Object>> getNewContainerPlacement(List<? extends Container> containersToMigrate, Set<? extends ContainerHost> excludedHosts) {
+    public List<Map<String, Object>> getNewContainerPlacement(List<? extends Container> containersToMigrate, Set<? extends ContainerHost> excludedHosts) {
 
         List<Map<String, Object>> migrationMap = new LinkedList<Map<String, Object>>();
 

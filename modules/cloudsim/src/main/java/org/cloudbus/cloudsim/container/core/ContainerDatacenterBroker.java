@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 /**
  * Created by sareh on 15/07/15.
+ * Updated by Walid on 1/10/17.
  */
 
 public class ContainerDatacenterBroker extends SimEntity {
@@ -652,6 +653,7 @@ public class ContainerDatacenterBroker extends SimEntity {
     public void startEntity() {
         Log.printConcatLine(getName(), " is starting...");
         schedule(getId(), 0, CloudSimTags.RESOURCE_CHARACTERISTICS_REQUEST);
+        schedule(getId(), 0, 987);
     }
 
     /**

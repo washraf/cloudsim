@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by sareh on 7/08/15.
+ * Update by walid on 1/10/17.
  */
 public class PowerContainerSelectionPolicyCor extends PowerContainerSelectionPolicy {
     /**
@@ -99,9 +100,10 @@ public class PowerContainerSelectionPolicyCor extends PowerContainerSelectionPol
 
         if (id == -1) {
             Log.printConcatLine("Problem with correlation list.");
+            return null;
         }
-
         return migratableContainers.get(id);
+        
 
     }
 

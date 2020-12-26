@@ -37,6 +37,14 @@ public class MathUtil {
 		}
 		return sum;
 	}
+	
+	public static double sum(final double[] list) {
+		double sum = 0;
+		for (Number number : list) {
+			sum += number.doubleValue();
+		}
+		return sum;
+	}
 
 	/**
 	 * Converts a List to array.
@@ -377,6 +385,15 @@ public class MathUtil {
 			result[i] = Math.abs(data[i]);
 		}
 		return result;
+	}
+	
+	public static double magnitude(final double[] data){
+		double mag = 0;
+			for (int i = 0; i < data.length-1; i++) {
+				mag += Math.pow(data[i]-data[i+1],2);
+			}
+			mag = Math.sqrt(mag);
+		return mag;
 	}
 
 }

@@ -37,7 +37,23 @@ public class containerCloudSimTags {
      * Invoked in the data center.
      */
     public static final int VM_NEW_CREATE = ContainerSimBASE + 11;
-
+    
+    /**
+     * Denotes a Periodic Host Monitor Event
+     */
+	public static final int HOST_MONITOR = ContainerSimBASE+12;
+	/**
+	 * Denotes an Over Utilized Host
+	 */
+	public static final int OverUtilizedHost = ContainerSimBASE+13;
+	/**
+	 * Denotes an Over Utilized Host
+	 */
+	public static final int UnderUtilizedHost = ContainerSimBASE+14;
+	/**
+	 * Denotes an Over Utilized Host
+	 */
+	public static final int NormalUtilizedHost = ContainerSimBASE+15;
 
     private containerCloudSimTags() {
         // TODO Auto-generated constructor stub

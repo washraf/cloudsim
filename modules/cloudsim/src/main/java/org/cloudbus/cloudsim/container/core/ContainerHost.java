@@ -7,11 +7,14 @@ import org.cloudbus.cloudsim.container.containerVmProvisioners.ContainerVmPe;
 import org.cloudbus.cloudsim.container.lists.ContainerVmPeList;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.container.core.containerCloudSimTags;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by sareh on 10/07/15.
+ * Updated by Walid on 1/10/17.
  */
 public class ContainerHost {
 
@@ -653,6 +656,21 @@ public class ContainerHost {
     }
 
 
+    public int getHostState(){
+    	
+    	
+    	double totalRequestedMips = 0;
+        for (ContainerVm vm : getVmList()) {
+            totalRequestedMips += vm.getCurrentRequestedTotalMips();
+        }
+        double utilization = totalRequestedMips / getTotalMips();
+        if(utilization>0.9)
+        	return containerCloudSimTags.OverUtilizedHost;
+        else if(utilization<0.7)
+        	return containerCloudSimTags.UnderUtilizedHost;
+        else
+        	return containerCloudSimTags.NormalUtilizedHost;
+    }
 }
 
 

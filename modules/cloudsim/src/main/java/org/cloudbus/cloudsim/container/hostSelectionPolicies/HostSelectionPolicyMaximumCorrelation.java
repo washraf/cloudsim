@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by sareh on 11/08/15.
- * Updated by Walid on 1/10/17.
+ * Created by Walid on 1/10/17.
  */
-public class HostSelectionPolicyMinimumCorrelation extends HostSelectionPolicy {
+public class HostSelectionPolicyMaximumCorrelation extends HostSelectionPolicy {
 
     private HostSelectionPolicy fallbackPolicy;
 
@@ -19,7 +18,7 @@ public class HostSelectionPolicyMinimumCorrelation extends HostSelectionPolicy {
      *
      * @param fallbackPolicy the fallback policy
      */
-    public HostSelectionPolicyMinimumCorrelation(final HostSelectionPolicy fallbackPolicy) {
+    public HostSelectionPolicyMaximumCorrelation(final HostSelectionPolicy fallbackPolicy) {
         super();
         setFallbackPolicy(fallbackPolicy);
     }
@@ -36,7 +35,7 @@ public class HostSelectionPolicyMinimumCorrelation extends HostSelectionPolicy {
             utilizationHistory = ((PowerContainerVm) obj).getUtilizationHistoryList();
         }
         Correlation correlation = new Correlation();
-        double minCor = Double.MAX_VALUE;
+        double maxCor = Double.MIN_VALUE;
         ContainerHost selectedHost = null;
         for (ContainerHost host : hostList) {
             if (excludedHostList.contains(host)) {
@@ -44,11 +43,11 @@ public class HostSelectionPolicyMinimumCorrelation extends HostSelectionPolicy {
             }
             if (host instanceof PowerContainerHostUtilizationHistory) {
                 double[] hostUtilization = ((PowerContainerHostUtilizationHistory) host).getUtilizationHistory();
-                if (hostUtilization.length > 5) {
+                if (hostUtilization.length >= 5) {
 
                     double cor = correlation.getCor(hostUtilization, utilizationHistory);
-                    if (cor < minCor) {
-                        minCor = cor;
+                    if (cor > maxCor) {
+                        maxCor = cor;
                         selectedHost = host;
 
                     }
