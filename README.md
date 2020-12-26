@@ -3,6 +3,8 @@ This fork contains the updated code and algorithms for the research paper.
 
 > W. A. Hanafy, A. E. Mohamed and S. A. Salem, "Novel selection policies for container-based cloud deployment models," 2017 13th International Computer Engineering Conference (ICENCO), Cairo, 2017, pp. 237-242, doi: 10.1109/ICENCO.2017.8289794.
 
+To run the new code run the [MySimulation](./modules/cloudsim-examples/src/main/java/org/cloudbus/cloudsim/examples/container/MySimmulation.java) File in the Container Examples inside the `cloudsim-examples` package.
+
 To cite the provided implementations make sure to cite the paper.
 
 ---
